@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOTORCYCLE GARAGE — 8 Machines. Zero Compromise.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0b;
+    --bg-2: #111113;
+    --bg-3: #17171a;
+    --card: #141416;
+    --line: #26262b;
+    --text: #f2f2f3;
+    --muted: #8b8b93;
+    --red: #e10600;
+    --red-dim: rgba(225, 6, 0, .14);
+    --glow: rgba(225, 6, 0, .45);
+    --radius: 10px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--red); color: #fff; }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 5vw;
+    background: linear-gradient(to bottom, rgba(10,10,11,.92), rgba(10,10,11,0));
+    backdrop-filter: blur(6px);
+  }
+  .logo {
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 20px;
+    letter-spacing: .14em; text-transform: uppercase;
+  }
+  .logo span { color: var(--red); }
+  nav a.navlink {
+    color: var(--muted); text-decoration: none; font-size: 12px;
+    letter-spacing: .18em; text-transform: uppercase; font-weight: 600;
+    transition: color .2s;
+  }
+  nav a.navlink:hover { color: var(--text); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative; min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 5vw 9vh;
+    background:
+      linear-gradient(to top, var(--bg) 4%, rgba(10,10,11,.35) 45%, rgba(10,10,11,.55) 100%),
+      linear-gradient(to right, rgba(10,10,11,.75), transparent 55%),
+      url('assets/hero.jpg') center/cover no-repeat;
+  }
+  .hero-kicker {
+    font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: .34em;
+    text-transform: uppercase; color: var(--red); font-weight: 600;
+    margin-bottom: 18px;
+    animation: rise .8s ease both;
+  }
+  .hero h1 {
+    font-family: 'Oswald', sans-serif; font-weight: 700;
+    font-size: clamp(46px, 8.5vw, 118px); line-height: .95;
+    text-transform: uppercase; letter-spacing: -.01em;
+    max-width: 14ch; color: #fff;
+    text-shadow: 0 4px 34px rgba(0,0,0,.85), 0 1px 4px rgba(0,0,0,.9);
+    animation: rise .8s .12s ease both;
+  }
+  .hero h1 em { font-style: normal; color: var(--red); }
+  .hero-sub {
+    margin-top: 22px; max-width: 52ch; color: #c9c9cf; font-size: 16px;
+    animation: rise .8s .24s ease both;
+  }
+  .hero-stats {
+    display: flex; flex-wrap: wrap; gap: 42px; margin-top: 42px;
+    animation: rise .8s .36s ease both;
+  }
+  .stat .num {
+    font-family: 'Oswald', sans-serif; font-size: 34px; font-weight: 700; line-height: 1;
+  }
+  .stat .lbl {
+    font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--muted); margin-top: 6px;
+  }
+  .scroll-hint {
+    position: absolute; bottom: 26px; right: 5vw;
+    font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted);
+    writing-mode: vertical-rl;
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+
+  /* ---------- MARQUEE ---------- */
+  .marquee {
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    background: var(--bg-2); overflow: hidden; padding: 13px 0;
+  }
+  .marquee-track {
+    display: flex; gap: 48px; width: max-content;
+    animation: scroll 30s linear infinite;
+    font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: .26em;
+    text-transform: uppercase; color: var(--muted); white-space: nowrap;
+  }
+  .marquee-track b { color: var(--red); font-weight: 600; }
+  @keyframes scroll { to { transform: translateX(-50%); } }
+
+  /* ---------- GARAGE ---------- */
+  .garage { padding: 90px 5vw 110px; max-width: 1480px; margin: 0 auto; }
+  .section-head { margin-bottom: 40px; }
+  .section-head .eyebrow {
+    font-size: 11px; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--red); font-weight: 600; margin-bottom: 10px;
+  }
+  .section-head h2 {
+    font-family: 'Oswald', sans-serif; font-size: clamp(30px, 4vw, 52px);
+    text-transform: uppercase; font-weight: 700; line-height: 1.05;
+  }
+  .filters { display: flex; flex-wrap: wrap; gap: 10px; margin: 30px 0 40px; }
+  .chip {
+    font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: .14em;
+    text-transform: uppercase; font-weight: 500;
+    padding: 9px 18px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--muted);
+    transition: all .2s;
+  }
+  .chip:hover { border-color: #444; color: var(--text); }
+  .chip.active {
+    background: var(--red); border-color: var(--red); color: #fff;
+    box-shadow: 0 0 22px var(--glow);
+  }
+
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 26px;
+  }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    overflow: hidden; cursor: pointer; position: relative;
+    transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+  }
+  .card:hover {
+    transform: translateY(-7px);
+    border-color: rgba(225,6,0,.55);
+    box-shadow: 0 22px 50px rgba(0,0,0,.6), 0 0 34px rgba(225,6,0,.12);
+  }
+  .card-img { position: relative; aspect-ratio: 4/3; overflow: hidden; background: #000; }
+  .card-img img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform .5s ease;
+  }
+  .card:hover .card-img img { transform: scale(1.06); }
+  .badge {
+    position: absolute; top: 14px; left: 14px;
+    font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: .18em;
+    text-transform: uppercase; font-weight: 600;
+    background: rgba(10,10,11,.82); color: #fff;
+    border: 1px solid rgba(255,255,255,.14);
+    padding: 6px 11px; border-radius: 4px; backdrop-filter: blur(4px);
+  }
+  .price-tag {
+    position: absolute; top: 14px; right: 14px;
+    font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 700;
+    background: var(--red); color: #fff; padding: 6px 12px; border-radius: 4px;
+    box-shadow: 0 6px 18px rgba(225,6,0,.4);
+  }
+  .card-body { padding: 22px 22px 24px; }
+  .card-brand {
+    font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 5px;
+  }
+  .card h3 {
+    font-family: 'Oswald', sans-serif; font-size: 24px; font-weight: 600;
+    text-transform: uppercase; line-height: 1.15;
+  }
+  .card .tagline { color: var(--muted); font-size: 13.5px; margin: 8px 0 16px; min-height: 40px; }
+  .mini-specs {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+    border-top: 1px solid var(--line); padding-top: 14px;
+  }
+  .mini-specs div { text-align: center; }
+  .mini-specs .v {
+    font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600;
+  }
+  .mini-specs .k {
+    font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); margin-top: 2px;
+  }
+  .view-btn {
+    display: block; margin-top: 16px; text-align: center;
+    font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--red); font-weight: 600;
+    border: 1px solid rgba(225,6,0,.4); border-radius: 6px; padding: 10px;
+    transition: all .2s;
+  }
+  .card:hover .view-btn { background: var(--red-dim); }
+
+  /* ---------- MODAL ---------- */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(5,5,6,.82); backdrop-filter: blur(8px);
+    display: none; align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px;
+    max-width: 1020px; width: 100%; max-height: 92vh; overflow: auto;
+    display: grid; grid-template-columns: 1.05fr 1fr;
+    animation: pop .3s ease both;
+    position: relative;
+  }
+  @keyframes pop { from { opacity: 0; transform: scale(.96) translateY(14px); } to { opacity: 1; transform: none; } }
+  .modal-img { background: #000; }
+  .modal-img img { width: 100%; height: 100%; object-fit: cover; display: block; min-height: 320px; }
+  .modal-content { padding: 38px 36px; }
+  .modal-close {
+    position: absolute; top: 14px; right: 16px; z-index: 5;
+    background: rgba(10,10,11,.85); border: 1px solid var(--line); color: var(--text);
+    width: 38px; height: 38px; border-radius: 50%; font-size: 19px; cursor: pointer;
+    transition: all .2s; line-height: 1;
+  }
+  .modal-close:hover { background: var(--red); border-color: var(--red); }
+  .modal-cat {
+    font-size: 11px; letter-spacing: .26em; text-transform: uppercase;
+    color: var(--red); font-weight: 600;
+  }
+  .modal h3 {
+    font-family: 'Oswald', sans-serif; font-size: clamp(28px, 3.4vw, 40px);
+    text-transform: uppercase; font-weight: 700; line-height: 1.05; margin: 8px 0 4px;
+  }
+  .modal .m-brand { color: var(--muted); font-size: 13px; letter-spacing: .12em; text-transform: uppercase; }
+  .modal .m-tag { color: #c9c9cf; font-size: 14.5px; margin: 16px 0 22px; }
+  .spec-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .spec-table tr { border-bottom: 1px solid var(--line); }
+  .spec-table td { padding: 10px 4px; }
+  .spec-table td:first-child {
+    color: var(--muted); text-transform: uppercase; font-size: 11px;
+    letter-spacing: .12em; width: 46%;
+  }
+  .spec-table td:last-child {
+    font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 500; text-align: right;
+  }
+  .modal-price {
+    margin-top: 24px; display: flex; align-items: baseline; gap: 10px;
+  }
+  .modal-price .p {
+    font-family: 'Oswald', sans-serif; font-size: 34px; font-weight: 700; color: var(--red);
+  }
+  .modal-price .note { color: var(--muted); font-size: 11.5px; letter-spacing: .06em; }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    border-top: 1px solid var(--line); background: var(--bg-2);
+    padding: 44px 5vw; color: var(--muted); font-size: 12.5px;
+  }
+  footer .f-top {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px;
+    margin-bottom: 18px;
+  }
+  footer .f-logo {
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 17px;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--text);
+  }
+  footer .f-logo span { color: var(--red); }
+  footer p { max-width: 86ch; line-height: 1.7; }
+  footer a { color: #b9b9c2; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 900px) {
+    .modal { grid-template-columns: 1fr; }
+    .modal-img img { max-height: 300px; }
+  }
+  @media (max-width: 560px) {
+    .hero-stats { gap: 26px; }
+    .stat .num { font-size: 26px; }
+    .grid { grid-template-columns: 1fr; }
+    .modal-content { padding: 26px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">MOTORCYCLE<span>.</span>GARAGE</div>
+  <a class="navlink" href="#garage">The Machines</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-kicker">// Curated 2026 Collection</div>
+  <h1>8 Machines.<br><em>Zero</em> Compromise.</h1>
+  <p class="hero-sub">From a supercharged Japanese monster to a starlit electric future — the most metal, oil, torque and attitude you can legally buy this year. Real bikes. Real specs. Real prices.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="num">8</div><div class="lbl">Machines</div></div>
+    <div class="stat"><div class="num">1,103<span style="font-size:18px">cc</span></div><div class="lbl">Biggest Engine</div></div>
+    <div class="stat"><div class="num">214<span style="font-size:18px">hp</span></div><div class="lbl">Most Power</div></div>
+    <div class="stat"><div class="num">6</div><div class="lbl">Countries</div></div>
+  </div>
+  <div class="scroll-hint">Scroll ↓</div>
+</header>
+
+<div class="marquee">
+  <div class="marquee-track" id="marquee">
+    <span>DUCATI <b>PANIGALE V4</b></span><span>KAWASAKI <b>NINJA H2</b></span><span>BMW <b>S 1000 RR</b></span><span>YAMAHA <b>MT-09</b></span><span>TRIUMPH <b>BONNEVILLE T120</b></span><span>HARLEY-DAVIDSON <b>NIGHTSTER</b></span><span>BMW <b>R 1300 GS</b></span><span>LIVEWIRE <b>ONE</b></span>
+  </div>
+</div>
+
+<main class="garage" id="garage">
+  <div class="section-head">
+    <div class="eyebrow">// The Garage</div>
+    <h2>Pick Your Poison</h2>
+  </div>
+
+  <div class="filters" id="filters">
+    <button class="chip active" data-filter="all">All</button>
+    <button class="chip" data-filter="Superbike">Superbike</button>
+    <button class="chip" data-filter="Hyper Naked">Hyper Naked</button>
+    <button class="chip" data-filter="Retro">Retro</button>
+    <button class="chip" data-filter="Cruiser">Cruiser</button>
+    <button class="chip" data-filter="Adventure">Adventure</button>
+    <button class="chip" data-filter="Electric">Electric</button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</main>
+
+<div class="modal-overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-close" id="closeBtn" aria-label="Close">×</button>
+    <div class="modal-img"><img id="mImg" src="" alt=""></div>
+    <div class="modal-content">
+      <div class="modal-cat" id="mCat"></div>
+      <div class="m-brand" id="mBrand"></div>
+      <h3 id="mName"></h3>
+      <p class="m-tag" id="mTag"></p>
+      <table class="spec-table"><tbody id="mSpecs"></tbody></table>
+      <div class="modal-price">
+        <div class="p" id="mPrice"></div>
+        <div class="note">MSRP, before fees & taxes</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="f-top">
+    <div class="f-logo">MOTORCYCLE<span>.</span>GARAGE</div>
+    <div>Built for people who listen to exhaust notes like music.</div>
+  </div>
+  <p>
+    Bike photography sourced from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>
+    (CC-licensed contributions by their respective photographers) and one hero photo from
+    <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a>.
+    Prices are approximate US MSRP for current model years and may vary by trim, region and dealer.
+    Specs are manufacturer-published figures. This is an independent showcase — not affiliated with any manufacturer.
+  </p>
+</footer>
+
+<script>
+const BIKES = [
+  {
+    id: "panigale",
+    brand: "Ducati",
+    name: "Panigale V4 S",
+    category: "Superbike",
+    tagline: "Bologna's MotoGP tech, homologated for the street. The poster on every wall.",
+    img: "assets/panigale-v4.jpg",
+    price: "$32,995",
+    specs: [
+      ["Engine", "1,103cc Desmosedici Stradale V4"],
+      ["Power", "214 hp @ 13,000 rpm"],
+      ["Torque", "91.5 lb-ft @ 9,500 rpm"],
+      ["Wet Weight", "~443 lb (201 kg)"],
+      ["Seat Height", "33.1 in (840 mm)"],
+      ["Top Speed", "186+ mph"],
+      ["Brakes", "Brembo Stylema, cornering ABS"],
+      ["Electronics", "6-axis IMU, DTC EVO 3, DSC"]
+    ]
+  },
+  {
+    id: "h2",
+    brand: "Kawasaki",
+    name: "Ninja H2",
+    category: "Superbike",
+    tagline: "The only factory-supercharged liter bike on earth. Mirror-black menace.",
+    img: "assets/ninja-h2.jpg",
+    price: "$18,999",
+    specs: [
+      ["Engine", "998cc supercharged inline-4"],
+      ["Power", "200 hp (210 hp ram air)"],
+      ["Torque", "99.9 lb-ft"],
+      ["Wet Weight", "~518 lb (235 kg)"],
+      ["Top Speed", "~200 mph class"],
+      ["Frame", "Trellis, high-tensile steel"],
+      ["Special", "In-house designed supercharger"],
+      ["Brakes", "Brembo M50 monobloc"]
+    ]
+  },
+  {
+    id: "s1000rr",
+    brand: "BMW",
+    name: "S 1000 RR",
+    category: "Superbike",
+    tagline: "German precision weapon. 205 hp with a race kit and zero drama.",
+    img: "assets/s1000rr.jpg",
+    price: "$18,995",
+    specs: [
+      ["Engine", "999cc ShiftCam inline-4"],
+      ["Power", "205 hp @ 13,500 rpm"],
+      ["Torque", "83 lb-ft @ 11,000 rpm"],
+      ["Wet Weight", "~434 lb (197 kg)"],
+      ["Seat Height", "32.4 in (824 mm)"],
+      ["Top Speed", "~188 mph"],
+      ["Electronics", "DTC, Slide Control, wheelie control"],
+      ["Brakes", "Brembo Stylema, Race Pro modes"]
+    ]
+  },
+  {
+    id: "mt09",
+    brand: "Yamaha",
+    name: "MT-09",
+    category: "Hyper Naked",
+    tagline: "The 'Master of Torque'. CP3 triple that yanks your spine in every gear.",
+    img: "assets/mt-09.jpg",
+    price: "$9,399",
+    specs: [
+      ["Engine", "890cc CP3 crossplane triple"],
+      ["Power", "117 hp @ 10,000 rpm"],
+      ["Torque", "68.6 lb-ft @ 7,000 rpm"],
+      ["Wet Weight", "~417 lb (189 kg)"],
+      ["Seat Height", "32.7 in (830 mm)"],
+      ["Tank", "3.7 gal"],
+      ["Electronics", "6-axis IMU, cruise control, TFT"],
+      ["Vibe", "Dark Side of Japan"]
+    ]
+  },
+  {
+    id: "t120",
+    brand: "Triumph",
+    name: "Bonneville T120",
+    category: "Retro",
+    tagline: "1959 soul, 2026 reliability. Chrome, character and a proper British twin.",
+    img: "assets/bonneville-t120.jpg",
+    price: "$13,995",
+    specs: [
+      ["Engine", "1,200cc parallel-twin, 270° crank"],
+      ["Power", "80 hp @ 6,500 rpm"],
+      ["Torque", "77.4 lb-ft @ 3,500 rpm"],
+      ["Wet Weight", "~507 lb (230 kg)"],
+      ["Seat Height", "31.1 in (790 mm)"],
+      ["Seats", "Twin seat, flat '60s profile"],
+      ["Tech", "Ride modes, heated grips, USB"],
+      ["Detail", "Tank badge & twin peashooters"]
+    ]
+  },
+  {
+    id: "nightster",
+    brand: "Harley-Davidson",
+    name: "Nightster",
+    category: "Cruiser",
+    tagline: "The Sportster bloodline, reborn liquid-cooled. Small, mean, affordable.",
+    img: "assets/nightster.jpg",
+    price: "$10,499",
+    specs: [
+      ["Engine", "975cc Revolution Max 975T V-Twin"],
+      ["Power", "90 hp @ 7,500 rpm"],
+      ["Torque", "70 lb-ft @ 5,000 rpm"],
+      ["Wet Weight", "~481 lb (218 kg)"],
+      ["Seat Height", "27.8 in (705 mm)"],
+      ["Layout", "Liquid-cooled, DOHC, VVT"],
+      ["Modes", "Road / Sport / Rain"],
+      ["Legacy", "Successor to the Sportster line"]
+    ]
+  },
+  {
+    id: "r1300gs",
+    brand: "BMW",
+    name: "R 1300 GS",
+    category: "Adventure",
+    tagline: "The do-everything legend. Crosses continents, deserts, and fuel stops.",
+    img: "assets/r1300gs.jpg",
+    price: "$20,300",
+    specs: [
+      ["Engine", "1,300cc ShiftCam boxer twin"],
+      ["Power", "145 hp @ 7,750 rpm"],
+      ["Torque", "110 lb-ft @ 6,500 rpm"],
+      ["Wet Weight", "~556 lb (252 kg)"],
+      ["Seat Height", "33.4–34.3 in"],
+      ["Suspension", "EVO Telelever / EVO Paralever"],
+      ["Tech", "Radar cruise, adaptive headlight"],
+      ["Rep", "The original big adventure bike"]
+    ]
+  },
+  {
+    id: "livewire",
+    brand: "Harley-Davidson",
+    name: "LiveWire One",
+    category: "Electric",
+    tagline: "Silent violence. 116 lb-ft the instant you twist — no clutch, no delay.",
+    img: "assets/livewire.jpg",
+    price: "$22,799",
+    specs: [
+      ["Battery", "15.4 kWh lithium-ion"],
+      ["Power", "105 hp (78 kW)"],
+      ["Torque", "84 lb-ft (116 Nm)"],
+      ["Weight", "~562 lb (255 kg)"],
+      ["Range", "~146 mi city / 70 mi highway"],
+      ["0–60", "3.0 seconds"],
+      ["Charge", "DC fast charge ~60 min 0–100%"],
+      ["Vibe", "No gears. No exhaust. All shove."]
+    ]
+  }
+];
+
+const grid = document.getElementById("grid");
+const overlay = document.getElementById("overlay");
+
+function render(filter) {
+  grid.innerHTML = "";
+  BIKES.filter(b => filter === "all" || b.category === filter).forEach(b => {
+    const card = document.createElement("article");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="card-img">
+        <img src="${b.img}" alt="${b.brand} ${b.name}" loading="lazy">
+        <div class="badge">${b.category}</div>
+        <div class="price-tag">${b.price}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-brand">${b.brand}</div>
+        <h3>${b.name}</h3>
+        <p class="tagline">${b.tagline}</p>
+        <div class="mini-specs">
+          <div><div class="v">${b.specs[0][1].split(" ").slice(0,2).join(" ")}</div><div class="k">Engine</div></div>
+          <div><div class="v">${(b.specs.find(s => s[0]==="Power")||b.specs[1])[1].split(" ").slice(0,2).join(" ")}</div><div class="k">Power</div></div>
+          <div><div class="v">${(b.specs.find(s => s[0].includes("Weight"))||b.specs[3])[1].split(" ")[0]}</div><div class="k">Weight</div></div>
+        </div>
+        <div class="view-btn">View Full Spec Sheet →</div>
+      </div>`;
+    card.addEventListener("click", () => openModal(b));
+    grid.appendChild(card);
+  });
+}
+
+function openModal(b) {
+  document.getElementById("mImg").src = b.img;
+  document.getElementById("mImg").alt = `${b.brand} ${b.name}`;
+  document.getElementById("mCat").textContent = b.category;
+  document.getElementById("mBrand").textContent = b.brand;
+  document.getElementById("mName").textContent = b.name;
+  document.getElementById("mTag").textContent = b.tagline;
+  document.getElementById("mPrice").textContent = b.price;
+  document.getElementById("mSpecs").innerHTML =
+    b.specs.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
+  overlay.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  overlay.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+document.getElementById("closeBtn").addEventListener("click", closeModal);
+overlay.addEventListener("click", e => { if (e.target === overlay) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+document.getElementById("filters").addEventListener("click", e => {
+  const chip = e.target.closest(".chip");
+  if (!chip) return;
+  document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+  chip.classList.add("active");
+  render(chip.dataset.filter);
+});
+
+document.getElementById("marquee").innerHTML += document.getElementById("marquee").innerHTML;
+
+render("all");
+</script>
+</body>
+</html>
